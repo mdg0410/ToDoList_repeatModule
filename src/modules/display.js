@@ -10,6 +10,10 @@ class Display {
 
   constructor() {
     this.container = document.getElementById('form-item');
+
+    const clearCompletedBtn = document.querySelector('.list-footer');
+    clearCompletedBtn.onclick = this.clearCompleted.bind(this);
+
     if (localStorage.getItem(this.storage)) {
       // eslint-disable-next-line max-len
       this.tasks = JSON.parse(localStorage.getItem(this.storage)).map((task) => new Task(task.description, task.completed, task.index));
@@ -57,6 +61,16 @@ class Display {
     localStorage.setItem(this.storage, JSON.stringify(this.tasks));
   }
 
+  toggleTaskStatus(task) {
+    task.toggleStatus();
+    this.render().saveToLocal();
+  }
+
+  clearCompleted = () => {
+    this.tasks = this.tasks.filter((task) => !task.completed);
+    this.render().saveToLocal();
+  }
+
   render = () => {
     this.container.parentNode.querySelectorAll('[data-task]').forEach((task) => task.remove());
     this.tasks.sort((a, b) => b.index - a.index).forEach((task) => {
@@ -65,6 +79,8 @@ class Display {
       this.saveTask();
       descriptionNode.onfocus = (e) => this.editing(e, Node, taskIndex);
       descriptionNode.onblur = (e) => this.edited(e, Node);
+      const completeBtn = Node.querySelector('input[type="checkbox"]');
+      completeBtn.onclick = () => this.toggleTaskStatus(task);
     });
     this.tasks.sort((a, b) => a.index - b.index);
 

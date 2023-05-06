@@ -6,6 +6,10 @@ export default class Task {
     this.isEditing = false;
   }
 
+  toggleStatus = () => {
+    this.completed = !this.completed;
+  }
+
   createNode = () => {
     const Node = document.createElement('li');
     Node.setAttribute('data-task', true);

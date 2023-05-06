@@ -1,4 +1,5 @@
-import './style.css';
+import './styles.css';
+import './reset.css';
+import display from './modules/display.js';
 
-const aux = document.getElementById('test1');
-aux.innerHTML = 'Test pass';
+display.render();

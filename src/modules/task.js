@@ -1,8 +1,9 @@
 export default class Task {
-  constructor(description, completed, index) {
+  constructor(description, completed = false, index = null) {
     this.description = description;
     this.completed = completed;
     this.index = index;
+    this.isEditing = false;
   }
 
   createNode = () => {
@@ -17,9 +18,11 @@ export default class Task {
       <input type="hidden" value="${this.index}" name="index" />
     </form>
   </div>
-  <i class="fa-solid fa-trash hidden" data-task-index="${this.index}"></i><i class="fa-solid fa-bars" data-task-index="${this.index}"></i>    
-  `;
+  <button type='button' class="trash hidden" data-task-index="${this.index}"><i class="fa-solid fa-trash"></i></button><i class="fa-solid fa-bars" data-task-index="${this.index}"></i>
+    `;
 
-    return { Node, index: this.index };
+    const descriptionNode = Node.querySelector('input.task-item');
+
+    return { Node, descriptionNode, taskIndex: this.index };
   }
 }
